@@ -1,41 +1,46 @@
 package com.example.zadachaaaaaa.service;
 
+import com.example.zadachaaaaaa.dao.UserDao;
 import com.example.zadachaaaaaa.model.User;
-import com.example.zadachaaaaaa.repository.UserRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService{
 
-    private final UserRepository userRepository;
-
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    private final UserDao userDao;
+    @Autowired
+    public UserServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     @Override
-    public List<User> getAllUser() {
-        return userRepository.findAll();
+    public List<User> getAllUsers() {
+        return userDao.getAllUsers();
     }
 
     @Override
-    public void addUser(User user) {
-        userRepository.save(user);
+    public User getUserById(long id) {
+        return userDao.getUserById(id);
     }
 
     @Override
-    public void deleteById(Long id) {
-        userRepository.deleteById(id);
+    public void add(User user) {
+        userDao.add(user);
     }
 
     @Override
-    public User getUserById(Long id) {
-        return userRepository.findUserById(id);
+    public void update(User user) {
+        userDao.update(user);
     }
 
     @Override
-    public void updateUser(User user) {
-        userRepository.save(user);
+    public void delete(long id) {
+        userDao.delete(id);
     }
 }
